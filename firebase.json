@@ -1,25 +1,10 @@
-{
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs20"
-  },
-  "hosting": {
-    "public": "public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "/api/proxy",
-        "function": "proxy"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**",
-        "headers": [
-          { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-          { "key": "X-Content-Type-Options", "value": "nosniff" }
-        ]
-      }
-    ]
-  }
-}
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./path/to/your/serviceAccountKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://your-database-name.firebaseio.com'
+});
+
+module.exports = admin;
